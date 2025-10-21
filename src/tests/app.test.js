@@ -4,6 +4,7 @@ import {
   initDatabase,
   userCart,
   addToCart,
+  removeFromCart,
 } from "../scripts/app";
 
 beforeEach(() => {
@@ -106,6 +107,63 @@ describe("addToCart", () => {
     ];
     initDatabase(mockArray);
     addToCart(2);
+    expect(userCart.length).toBe(1);
     expect(userCart[0].title).toBe("iPhone X");
+  });
+});
+
+describe("removeFromCart", () => {
+  it("should be a function with 1 parameter", () => {
+    expect(typeof removeFromCart).toBe("function");
+    expect(removeFromCart.length).toBe(1);
+  });
+  it("should throw a error if parameter is not a number", () => {
+    expect(() => removeFromCart("false")).toThrow(
+      "Argument should be a number"
+    );
+  });
+  it("should an error if id for argument is not found", () => {
+    const mockArray = [
+      {
+        id: 1,
+        title: "iPhone 9",
+        price: 549,
+        brand: "Apple",
+        category: "smartphones",
+      },
+      {
+        id: 2,
+        title: "iPhone X",
+        price: 899,
+        brand: "Apple",
+        category: "smartphones",
+      },
+    ];
+    initDatabase(mockArray);
+    expect(() => removeFromCart(10)).toThrow(
+      "Argument does not exist in database."
+    );
+  });
+  it("should remove item from cart by using id", () => {
+    const mockArray = [
+      {
+        id: 1,
+        title: "iPhone 9",
+        price: 549,
+        brand: "Apple",
+        category: "smartphones",
+      },
+      {
+        id: 2,
+        title: "iPhone X",
+        price: 899,
+        brand: "Apple",
+        category: "smartphones",
+      },
+    ];
+    initDatabase(mockArray);
+    removeFromCart(1);
+    expect(userCart.length).toBe(1);
+    expect(userCart[0].price).toBe(899);
   });
 });

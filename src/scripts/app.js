@@ -16,4 +16,11 @@ function addToCart(id) {
   userCart.push(product);
 }
 
-export { productsData, initDatabase, userCart, addToCart };
+function removeFromCart(id) {
+  if (isNaN(id)) throw new Error("Argument should be a number");
+  const product = productsData.find((item) => item.id === id);
+  if (!product) throw new Error("Argument does not exist in database.");
+  userCart = userCart.filter((product) => product.id !== id);
+}
+
+export { productsData, initDatabase, userCart, addToCart, removeFromCart };
