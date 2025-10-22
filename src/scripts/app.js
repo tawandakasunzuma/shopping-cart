@@ -1,5 +1,3 @@
-import { PRODUCTS_MOCK } from "../../mock-data/products_mock.js";
-
 let productsData = [];
 
 function initDatabase(data) {
