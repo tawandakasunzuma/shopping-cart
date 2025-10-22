@@ -4,9 +4,10 @@ import {
   userCart,
   addToCart,
   removeFromCart,
+  clearCart,
   price,
   discount,
-  calculateCost
+  calculateCost,
 } from "../scripts/app";
 
 beforeEach(() => {
@@ -170,22 +171,51 @@ describe("removeFromCart", () => {
   });
 });
 
+describe("clearCart", () => {
+  it("should be a function", () => {
+    expect(typeof clearCart).toBe("function");
+  });
+  it("should empty the cart when called", () => {
+    const mockArray = [
+      {
+        id: 1,
+        title: "iPhone 9",
+        price: 549,
+        brand: "Apple",
+        category: "smartphones",
+      },
+      {
+        id: 2,
+        title: "iPhone X",
+        price: 899,
+        brand: "Apple",
+        category: "smartphones",
+      },
+    ];
+    initDatabase(mockArray);
+    clearCart();
+    expect(userCart.length).toBe(0);
+  });
+});
+
 describe("price, discount, netPrice", () => {
-  it('should be numbers', () => {
+  it("should be numbers", () => {
     expect(typeof price).toBe("number");
     expect(typeof discount).toBe("number");
   });
 });
 
 describe("calculateCost", () => {
-  it('should be a function', () => {
+  it("should be a function", () => {
     expect(typeof calculateCost).toBe("function");
   });
-  it('should take 2 parameters and throw error if not number', () => {
+  it("should take 2 parameters and throw error if not number", () => {
     expect(calculateCost.length).toBe(2);
-    expect(() => calculateCost(2,"money")).toThrow("Arguments should both be numbers")
+    expect(() => calculateCost(2, "money")).toThrow(
+      "Arguments should both be numbers"
+    );
   });
-  it('should calculate netPrice after deducting discount from price', () => {
-    expect(calculateCost(2000,15)).toBe(1700);
-  })
+  it("should calculate netPrice after deducting discount from price", () => {
+    expect(calculateCost(2000, 15)).toBe(1700);
+  });
 });
