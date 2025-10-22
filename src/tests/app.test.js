@@ -1,10 +1,12 @@
-import { PRODUCTS_MOCK } from "../../mock-data/products_mock.js";
 import {
   productsData,
   initDatabase,
   userCart,
   addToCart,
   removeFromCart,
+  price,
+  discount,
+  calculateCost
 } from "../scripts/app";
 
 beforeEach(() => {
@@ -166,4 +168,24 @@ describe("removeFromCart", () => {
     expect(userCart.length).toBe(1);
     expect(userCart[0].price).toBe(899);
   });
+});
+
+describe("price, discount, netPrice", () => {
+  it('should be numbers', () => {
+    expect(typeof price).toBe("number");
+    expect(typeof discount).toBe("number");
+  });
+});
+
+describe("calculateCost", () => {
+  it('should be a function', () => {
+    expect(typeof calculateCost).toBe("function");
+  });
+  it('should take 2 parameters and throw error if not number', () => {
+    expect(calculateCost.length).toBe(2);
+    expect(() => calculateCost(2,"money")).toThrow("Arguments should both be numbers")
+  });
+  it('should calculate netPrice after deducting discount from price', () => {
+    expect(calculateCost(2000,15)).toBe(1700);
+  })
 });
